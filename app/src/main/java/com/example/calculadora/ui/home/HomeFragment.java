@@ -27,6 +27,7 @@ public class HomeFragment extends Fragment  {
     private TextView  operacion;
     private TextView resultado;
     private double variable = 45;
+    private String anterior;
 
     View vista;
     Button btnC;
@@ -253,7 +254,9 @@ public class HomeFragment extends Fragment  {
                 String result = String.valueOf(e.calculate());
                 resultado.setText(result);
                 guardar();
+                anterior = result;
                 calculo="";
+
 
             }
         });
@@ -327,7 +330,9 @@ public class HomeFragment extends Fragment  {
         btnanterior.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resultado.setText(""+variable);
+                //resultado.setText(""+variable);
+                calculo = calculo+anterior;
+                operacion.setText(calculo);
 
             }
         });/* */
@@ -348,7 +353,7 @@ public class HomeFragment extends Fragment  {
         String res = resultado.getText().toString();
 
         SharedPreferences.Editor editor= preferences.edit();
-        editor.putString(op,res);
+        editor.putString("op",res);
         //editor.putString("res",res);
         editor.commit();
     }

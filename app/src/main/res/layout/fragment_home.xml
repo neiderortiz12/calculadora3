@@ -254,7 +254,7 @@
             android:layout_rowWeight="1"
             android:layout_column="0"
             android:layout_columnWeight="1"
-            android:background="#ffffff"
+            android:background="#9E9D9D"
 
             android:text="."
             android:textSize="35sp" />
