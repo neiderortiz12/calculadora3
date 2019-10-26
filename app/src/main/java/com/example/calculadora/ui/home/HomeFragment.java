@@ -26,6 +26,8 @@ public class HomeFragment extends Fragment  {
     private  String calculo="";
     private TextView  operacion;
     private TextView resultado;
+    private double variable = 45;
+
     View vista;
     Button btnC;
     Button btn1;
@@ -46,6 +48,13 @@ public class HomeFragment extends Fragment  {
     Button btndiv;
     Button btnigual;
     Button punto;
+
+    Button btnseno;
+    Button btncoseno;
+    Button btntangente;
+    Button btnX;
+    Button btnanterior;
+    Button btnpotencia;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -243,16 +252,85 @@ public class HomeFragment extends Fragment  {
                 Expression e = new Expression(calculo);
                 String result = String.valueOf(e.calculate());
                 resultado.setText(result);
+                guardar();
+                calculo="";
 
             }
         });
         //final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
+        //homeViewModel.getText().observe(this, new Observer<String>() {
+           // @Override
+           // public void onChanged(@Nullable String s) {
                 //textView.setText(s);
+           // }
+        //});
+
+        //-------------------------------------------------
+
+        btnseno = vista.findViewById(R.id.btnSen);
+        btnseno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double respuesta = Math.sin(variable);
+                String result = ""+respuesta;
+                operacion.setText("Cos("+variable+")");
+                resultado.setText(result);
+                guardar();
             }
         });
+
+
+        btncoseno = vista.findViewById(R.id.btnCo);
+        btncoseno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double respuesta = Math.cos(variable);
+                String result = ""+respuesta;
+                operacion.setText("Cos("+variable+")");
+                resultado.setText(result);
+                guardar();
+
+            }
+        });
+
+        btntangente = vista.findViewById(R.id.btnTangente);
+        btntangente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                double respuesta = Math.tan(variable);
+                String result = ""+respuesta;
+                operacion.setText("Tan("+variable+")");
+                resultado.setText(result);
+                guardar();
+
+            }
+        });
+
+        btnX = vista.findViewById(R.id.btnX);
+        btnX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                variable = Double.parseDouble(calculo);
+                resultado.setText("x="+variable);
+            }
+        });
+
+        btnpotencia= vista.findViewById(R.id.btnPotencia);
+        btnpotencia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultado.setText(""+variable);
+            }
+        });
+
+        btnanterior = vista.findViewById(R.id.btnAnterior);
+        btnanterior.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resultado.setText(""+variable);
+
+            }
+        });/* */
 
         return vista;
     }
@@ -262,4 +340,16 @@ public class HomeFragment extends Fragment  {
     //    Intent i = new Intent(this, AcercaDe.class );
     //    startActivity(i);
     //}
+
+    private void guardar(){
+        SharedPreferences preferences = this.getActivity().getSharedPreferences("calculos", Context.MODE_PRIVATE);
+
+        String op = operacion.getText().toString();
+        String res = resultado.getText().toString();
+
+        SharedPreferences.Editor editor= preferences.edit();
+        editor.putString(op,res);
+        //editor.putString("res",res);
+        editor.commit();
+    }
 }
